@@ -2,6 +2,7 @@ version: "3.9"
 services:
   nfs_server:
     tty: true
+    container_name: nfs_server
     build:
       context: ./server_nfs
       dockerfile: Dockerfile-nfs
@@ -11,8 +12,11 @@ services:
       - ${PWD}/server_nfs/data_nfs:/var/nfs
   client_server:
     tty: true
+    container_name: client_server
     build:
       context: ./server_client
       dockerfile: Dockerfile-server
     ports:
       - "8085:80"
+    depends_on:
+      - nfs_server

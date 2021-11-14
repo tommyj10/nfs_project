@@ -7,4 +7,4 @@ RUN		apt-get update && apt-get -y install nfs-kernel-server nfs-common && \
 		apt-get autoremove -y && \
 		rm -rfv /tmp/* /var/lib/at/lists/* /var/tmp/*
 EXPOSE		80
-CMD		["bin/bash", "-D", "FOREGROUND"]
+CMD		["bin/bash"]
