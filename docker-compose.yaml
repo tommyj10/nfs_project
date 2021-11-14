@@ -10,6 +10,9 @@ services:
       - "2049:2049"
     volumes:
       - ${PWD}/server_nfs/data_nfs:/var/nfs
+    networks:
+      nfs_server_network:
+        ipv4_address: 172.19.99.2
   client_server:
     tty: true
     container_name: client_server
@@ -20,3 +23,13 @@ services:
       - "8085:80"
     depends_on:
       - nfs_server
+    networks:
+      nfs_server_network:
+        ipv4_address: 172.19.99.3
+networks:
+  nfs_server_network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.19.99.0/24
+          gateway: 172.19.99.1
