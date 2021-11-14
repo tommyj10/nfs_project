@@ -1,20 +1,21 @@
 version: "3.9"
 services:
   nfs_server:
-    tty: true
+    image: itsthenetwork/nfs-server-alpine
     container_name: nfs_server
-    build:
-      context: ./server_nfs
-      dockerfile: Dockerfile-nfs
+    restart: unless-stopped
+    privileged: true
+    environment:
+      - SHARED_DIRECTORY=/data
     ports:
       - "2049:2049"
     volumes:
-      - ${PWD}/server_nfs/data_nfs:/var/nfs
+      - ${PWD}/server_nfs/data_nfs:/data
     networks:
       nfs_server_network:
         ipv4_address: 172.19.99.2
   client_server:
-    tty: true
+    privileged: true
     container_name: client_server
     build:
       context: ./server_client

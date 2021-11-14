@@ -1,10 +1,17 @@
 FROM		ubuntu:14.04
 MAINTAINER	"Thomas Jeong <unistommy@gmail.com>"
 LABEL		"purpose"="NFS Server Demo"
-COPY		./requirements.txt /requirements.txt
+
+COPY		./mount_nfs_server.sh /mount_nfs_server.sh
+
 RUN		apt-get update && apt-get -y install nfs-kernel-server nfs-common && \
 		apt-get clean -y && \
 		apt-get autoremove -y && \
-		rm -rfv /tmp/* /var/lib/at/lists/* /var/tmp/*
+		rm -rfv /tmp/* /var/lib/apt/lists/* /var/tmp/*
+RUN		mkdir -p /mnt/nfs_data && \
+		chmod +x /mount_nfs_server.sh
+
+
 EXPOSE		80
-CMD		["bin/bash"]
+
+CMD		./mount_nfs_server.sh; sleep infinity
