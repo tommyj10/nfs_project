@@ -14,9 +14,9 @@ services:
     networks:
       nfs_server_network:
         ipv4_address: 172.19.99.2
-  client_server:
+  client_server1:
     privileged: true
-    container_name: client_server
+    container_name: client_server1
     build:
       context: ./server_client
       dockerfile: Dockerfile-server
@@ -27,6 +27,19 @@ services:
     networks:
       nfs_server_network:
         ipv4_address: 172.19.99.3
+  client_server2:
+    privileged: true
+    container_name: client_server2
+    build:
+      context: ./server_client
+      dockerfile: Dockerfile-server
+    ports:
+      - "8086:80"
+    depends_on:
+      - nfs_server
+    networks:
+      nfs_server_network:
+        ipv4_address: 172.19.99.4
 networks:
   nfs_server_network:
     driver: bridge
